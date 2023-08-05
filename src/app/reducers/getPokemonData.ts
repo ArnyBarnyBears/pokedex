@@ -27,6 +27,7 @@ export const getPokemonData = createAsyncThunk(
                 image = defaultImages[data.id];
             }
             if (image) {
+                console.log({data})
                 pokemonsData.push({
                     name: pokemon.name,
                     id: data.id,
