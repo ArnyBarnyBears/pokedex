@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { getInitialPokemonData } from '../app/reducers/getInitialPokemonData';
 import { getPokemonData } from '../app/reducers/getPokemonData';
 import PokemonCardGrid from '../components/PokemonCardGrid';
+import { debounce } from '../utils/Debounce';
 
 function Search() {
   const dispatch = useAppDispatch();
@@ -21,6 +22,9 @@ function Search() {
       dispatch(getPokemonData(randomPokemonsId));
     }
   }, [allPokemon, dispatch]);
+
+
+  const handleChange = debounce((value: string) => getPokemon(value), 600);
 
   const getPokemon = async (value: string) => {
     //for search checks if theres a length in which case checks if the name includes the search term, else displays 20 random pokemon
@@ -44,7 +48,8 @@ function Search() {
         type="text"
         className="pokemon-searchbar"
         placeholder="Search Pokemon"
-        onChange={(e) => getPokemon(e.target.value)}
+        //use debouncing
+        onChange={(e) => handleChange(e.target.value)}
       />
       <PokemonCardGrid pokemons={randomPokemons!} />
     </div>
